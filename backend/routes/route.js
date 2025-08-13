@@ -3,7 +3,7 @@ const router = require('express').Router();
 // const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
 
 const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
-
+const { sendEmail } = require("../controllers/emailController.js")
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
 const { complainCreate, complainList } = require('../controllers/complain-controller.js');
 const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = require('../controllers/notice-controller.js');
@@ -13,6 +13,7 @@ const {
     getStudents,
     getStudentDetail,
     deleteStudents,
+    
     deleteStudent,
     updateStudent,
     studentAttendance,
@@ -115,5 +116,9 @@ router.get("/Subject/:id", getSubjectDetail)
 router.delete("/Subject/:id", deleteSubject)
 router.delete("/Subjects/:id", deleteSubjects)
 router.delete("/SubjectsClass/:id", deleteSubjectsByClass)
+
+// mail 
+
+router.post('/send', sendEmail);
 
 module.exports = router;

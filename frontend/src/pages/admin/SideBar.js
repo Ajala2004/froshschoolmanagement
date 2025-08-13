@@ -71,6 +71,12 @@ const SideBar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Profile" />
                 </ListItemButton>
+                <ListItemButton component={Link} to="/Admin/email">
+                    <ListItemIcon>
+                        <AccountCircleOutlinedIcon color={location.pathname.startsWith("/Admin/email") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                </ListItemButton>
                 <ListItemButton component={Link} to="/logout">
                     <ListItemIcon>
                         <ExitToAppIcon color={location.pathname.startsWith("/logout") ? 'primary' : 'inherit'} />
