@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
+
 const Admin = require('../models/adminSchema.js');
 const Sclass = require('../models/sclassSchema.js');
 const Student = require('../models/studentSchema.js');
