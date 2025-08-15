@@ -2,141 +2,208 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../redux/userRelated/userHandle';
-import Popup from '../../../components/Popup';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
-import { CircularProgress } from '@mui/material';
+import Popup from '../../../components/Popup';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  MenuItem,
+  CircularProgress,
+  Grid
+} from '@mui/material';
 
 const AddStudent = ({ situation }) => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const params = useParams()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
 
-    const userState = useSelector(state => state.user);
-    const { status, currentUser, response, error } = userState;
-    const { sclassesList } = useSelector((state) => state.sclass);
+  const { status, currentUser, response, error } = useSelector(state => state.user);
+  const { sclassesList } = useSelector(state => state.sclass);
 
-    const [name, setName] = useState('');
-    const [rollNum, setRollNum] = useState('');
-    const [password, setPassword] = useState('')
-    const [className, setClassName] = useState('')
-    const [sclassName, setSclassName] = useState('')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [parentEmail, setParentEmail] = useState('');
+  const [rollNum, setRollNum] = useState('');
+  const [password, setPassword] = useState('');
+  const [className, setClassName] = useState('');
+  const [sclassName, setSclassName] = useState('');
 
-    const adminID = currentUser._id
-    const role = "Student"
-    const attendance = []
+  const adminID = currentUser._id;
+  const role = "Student";
+  const attendance = [];
 
-    useEffect(() => {
-        if (situation === "Class") {
-            setSclassName(params.id);
-        }
-    }, [params.id, situation]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loader, setLoader] = useState(false);
 
-    const [showPopup, setShowPopup] = useState(false);
-    const [message, setMessage] = useState("");
-    const [loader, setLoader] = useState(false)
-
-    useEffect(() => {
-        dispatch(getAllSclasses(adminID, "Sclass"));
-    }, [adminID, dispatch]);
-
-    const changeHandler = (event) => {
-        if (event.target.value === 'Select Class') {
-            setClassName('Select Class');
-            setSclassName('');
-        } else {
-            const selectedClass = sclassesList.find(
-                (classItem) => classItem.sclassName === event.target.value
-            );
-            setClassName(selectedClass.sclassName);
-            setSclassName(selectedClass._id);
-        }
+  useEffect(() => {
+    if (situation === "Class") {
+      setSclassName(params.id);
     }
+  }, [params.id, situation]);
 
-    const fields = { name, rollNum, password, sclassName, adminID, role, attendance }
+  useEffect(() => {
+    dispatch(getAllSclasses(adminID, "Sclass"));
+  }, [adminID, dispatch]);
 
-    const submitHandler = (event) => {
-        event.preventDefault()
-        if (sclassName === "") {
-            setMessage("Please select a classname")
-            setShowPopup(true)
-        }
-        else {
-            setLoader(true)
-            dispatch(registerUser(fields, role))
-        }
+  const changeHandler = (event) => {
+    if (event.target.value === 'Select Class') {
+      setClassName('Select Class');
+      setSclassName('');
+    } else {
+      const selectedClass = sclassesList.find(
+        (classItem) => classItem.sclassName === event.target.value
+      );
+      setClassName(selectedClass.sclassName);
+      setSclassName(selectedClass._id);
     }
+  };
 
-    useEffect(() => {
-        if (status === 'added') {
-            dispatch(underControl())
-            navigate(-1)
-        }
-        else if (status === 'failed') {
-            setMessage(response)
-            setShowPopup(true)
-            setLoader(false)
-        }
-        else if (status === 'error') {
-            setMessage("Network Error")
-            setShowPopup(true)
-            setLoader(false)
-        }
-    }, [status, navigate, error, response, dispatch]);
+  const fields = { name, email, parentEmail, rollNum, password, sclassName, adminID, role, attendance };
 
-    return (
-        <>
-            <div className="register">
-                <form className="registerForm" onSubmit={submitHandler}>
-                    <span className="registerTitle">Add Student</span>
-                    <label>Name</label>
-                    <input className="registerInput" type="text" placeholder="Enter student's name..."
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                        autoComplete="name" required />
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (sclassName === "") {
+      setMessage("Please select a classname");
+      setShowPopup(true);
+    } else {
+      setLoader(true);
+      dispatch(registerUser(fields, role));
+    }
+  };
 
-                    {
-                        situation === "Student" &&
-                        <>
-                            <label>Class</label>
-                            <select
-                                className="registerInput"
-                                value={className}
-                                onChange={changeHandler} required>
-                                <option value='Select Class'>Select Class</option>
-                                {sclassesList.map((classItem, index) => (
-                                    <option key={index} value={classItem.sclassName}>
-                                        {classItem.sclassName}
-                                    </option>
-                                ))}
-                            </select>
-                        </>
-                    }
+  useEffect(() => {
+    if (status === 'added') {
+      dispatch(underControl());
+      navigate(-1);
+    } else if (status === 'failed') {
+      setMessage(response);
+      setShowPopup(true);
+      setLoader(false);
+    } else if (status === 'error') {
+      setMessage("Network Error");
+      setShowPopup(true);
+      setLoader(false);
+    }
+  }, [status, navigate, error, response, dispatch]);
 
-                    <label>Roll Number</label>
-                    <input className="registerInput" type="number" placeholder="Enter student's Roll Number..."
-                        value={rollNum}
-                        onChange={(event) => setRollNum(event.target.value)}
-                        required />
+  return (
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      bgcolor: '#f4f6f8',
+      padding: 2
+    }}>
+      <Card sx={{ width: '100%', maxWidth: 600, borderRadius: 3, boxShadow: 5 }}>
+        <CardContent>
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+            Add New Student
+          </Typography>
 
-                    <label>Password</label>
-                    <input className="registerInput" type="password" placeholder="Enter student's password..."
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        autoComplete="new-password" required />
+          <form onSubmit={submitHandler}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="Full Name"
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </Grid>
 
-                    <button className="registerButton" type="submit" disabled={loader}>
-                        {loader ? (
-                            <CircularProgress size={24} color="inherit" />
-                        ) : (
-                            'Add'
-                        )}
-                    </button>
-                </form>
-            </div>
-            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-        </>
-    )
-}
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Student Email"
+                  fullWidth
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </Grid>
 
-export default AddStudent
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Parent Email"
+                  fullWidth
+                  type="email"
+                  value={parentEmail}
+                  onChange={(e) => setParentEmail(e.target.value)}
+                  required
+                />
+              </Grid>
+
+              {situation === "Student" && (
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    label="Class"
+                    fullWidth
+                    value={className}
+                    onChange={changeHandler}
+                    required
+                  >
+                    <MenuItem value="Select Class">Select Class</MenuItem>
+                    {sclassesList.map((classItem, index) => (
+                      <MenuItem key={index} value={classItem.sclassName}>
+                        {classItem.sclassName}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Roll Number"
+                  type="number"
+                  fullWidth
+                  value={rollNum}
+                  onChange={(e) => setRollNum(e.target.value)}
+                  required
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Password"
+                  type="password"
+                  fullWidth
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  fullWidth
+                  disabled={loader}
+                  sx={{ py: 1.5, fontWeight: 'bold', borderRadius: 2 }}
+                >
+                  {loader ? <CircularProgress size={26} color="inherit" /> : 'Add Student'}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
+    </Box>
+  );
+};
+
+export default AddStudent;

@@ -16,7 +16,7 @@ import Logout from '../Logout'
 import AccountMenu from '../../components/AccountMenu';
 import { AppBar, Drawer } from '../../components/styles';
 import StudentAttendance from '../admin/studentRelated/StudentAttendance';
-
+import TeacherSetExam from './TeacherSetExam'
 import TeacherClassDetails from './TeacherClassDetails';
 import TeacherComplain from './TeacherComplain';
 import TeacherHomePage from './TeacherHomePage';
@@ -80,6 +80,8 @@ const TeacherDashboard = () => {
                         <Route path="/Teacher/profile" element={<TeacherProfile />} />
 
                         <Route path="/Teacher/complain" element={<TeacherComplain />} />
+                        
+                        <Route path="/Teacher/set-exam" element={<TeacherSetExam />} />
 
                         <Route path="/Teacher/class" element={<TeacherClassDetails />} />
                         <Route path="/Teacher/class/student/:id" element={<TeacherViewStudent />} />

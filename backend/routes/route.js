@@ -23,9 +23,10 @@ const {
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
     removeStudentAttendance } = require('../controllers/student_controller.js');
+const { protect } = require("../middleware/authMiddleware.js");
 const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
-
+const { createOrUpdateExam, toggleAvailability, getExamByTeacher } = require("../controllers/examController");
 // Admin
 router.post('/AdminReg', adminRegister);
 router.post('/AdminLogin', adminLogIn);
@@ -120,5 +121,10 @@ router.delete("/SubjectsClass/:id", deleteSubjectsByClass)
 // mail 
 
 router.post('/send', sendEmail);
+
+//exam
+router.post("/save",  createOrUpdateExam);
+router.put("/toggle",  toggleAvailability);
+router.post('/my-exam', getExamByTeacher);
 
 module.exports = router;

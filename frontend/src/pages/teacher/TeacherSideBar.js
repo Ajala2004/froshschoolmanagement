@@ -7,28 +7,43 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined'; // Icon for "Set Exam"
 import { useSelector } from 'react-redux';
 
 const TeacherSideBar = () => {
     const { currentUser } = useSelector((state) => state.user);
-    const sclassName = currentUser.teachSclass
+    const sclassName = currentUser.teachSclass;
 
     const location = useLocation();
+
     return (
         <>
             <React.Fragment>
+                {/* Home */}
                 <ListItemButton component={Link} to="/">
                     <ListItemIcon>
-                        <HomeIcon color={location.pathname === ("/" || "/Teacher/dashboard") ? 'primary' : 'inherit'} />
+                        <HomeIcon color={location.pathname === "/" || location.pathname === "/Teacher/dashboard" ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItemButton>
+
+                {/* Class */}
                 <ListItemButton component={Link} to="/Teacher/class">
                     <ListItemIcon>
                         <ClassOutlinedIcon color={location.pathname.startsWith("/Teacher/class") ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     <ListItemText primary={`Class ${sclassName.sclassName}`} />
                 </ListItemButton>
+
+                {/* Set Exam */}
+                <ListItemButton component={Link} to="/Teacher/set-exam">
+                    <ListItemIcon>
+                        <AssignmentTurnedInOutlinedIcon color={location.pathname.startsWith("/Teacher/set-exam") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Set Exam" />
+                </ListItemButton>
+
+                {/* Complain */}
                 <ListItemButton component={Link} to="/Teacher/complain">
                     <ListItemIcon>
                         <AnnouncementOutlinedIcon color={location.pathname.startsWith("/Teacher/complain") ? 'primary' : 'inherit'} />
@@ -36,7 +51,10 @@ const TeacherSideBar = () => {
                     <ListItemText primary="Complain" />
                 </ListItemButton>
             </React.Fragment>
+
             <Divider sx={{ my: 1 }} />
+
+            {/* User Section */}
             <React.Fragment>
                 <ListSubheader component="div" inset>
                     User
@@ -55,7 +73,7 @@ const TeacherSideBar = () => {
                 </ListItemButton>
             </React.Fragment>
         </>
-    )
+    );
 }
 
-export default TeacherSideBar
+export default TeacherSideBar;

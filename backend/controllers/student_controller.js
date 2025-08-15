@@ -2,37 +2,47 @@ const bcrypt = require("bcryptjs");
 
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
-
 const studentRegister = async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPass = await bcrypt.hash(req.body.password, salt);
+        const { rollNum, sclassName, password, ...rest } = req.body;
 
+        // Check if student already exists
         const existingStudent = await Student.findOne({
-            rollNum: req.body.rollNum,
+            rollNum,
             school: req.body.adminID,
-            sclassName: req.body.sclassName,
+            sclassName
         });
 
         if (existingStudent) {
-            res.send({ message: 'Roll Number already exists' });
+            return res.status(409).json({ message: 'Roll Number already exists' });
         }
-        else {
-            const student = new Student({
-                ...req.body,
-                school: req.body.adminID,
-                password: hashedPass
-            });
 
-            let result = await student.save();
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPass = await bcrypt.hash(password, salt);
 
-            result.password = undefined;
-            res.send(result);
-        }
+        // Create new student
+        const student = new Student({
+            ...rest,
+            rollNum,
+            sclassName,
+            school: req.body.adminID,
+            password: hashedPass
+        });
+
+        const savedStudent = await student.save();
+
+        // Respond without sensitive data
+        const { password: _, ...studentData } = savedStudent.toObject();
+        res.status(201).json(studentData);
+
     } catch (err) {
-        res.status(500).json(err);
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+
+
 
 const studentLogIn = async (req, res) => {
     try {

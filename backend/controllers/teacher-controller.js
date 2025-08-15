@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
 const Teacher = require('../models/teacherSchema.js');
 const Subject = require('../models/subjectSchema.js');
 
@@ -26,6 +26,73 @@ const teacherRegister = async (req, res) => {
         res.status(500).json(err);
     }
 };
+
+
+ 
+
+//  const teacherLogIn = async (req, res) => {
+//     try {
+//         let teacher = await Teacher.findOne({ email: req.body.email });
+
+//         if (teacher) {
+//             const validated = await bcrypt.compare(req.body.password, teacher.password);
+
+//             if (validated) {
+//                 teacher = await teacher.populate("teachSubject", "subName sessions");
+//                 teacher = await teacher.populate("school", "schoolName");
+//                 teacher = await teacher.populate("teachSclass", "sclassName");
+
+//                 teacher.password = undefined; // remove hashed password
+//                 res.send({ message: "Login successful", teacher });
+//             } else {
+//                 res.send({ message: "Invalid password" });
+//             }
+//         } else {
+//             res.send({ message: "Teacher not found" });
+//         }
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error", error: err.message });
+//     }
+// };
+
+
+
+
+// newwwwwww
+//   const teacherLogIn = async (req, res) => {
+//     try {
+//         console.log("Login request body:", req.body);
+
+//         let teacher = await Teacher.findOne({ email: req.body.email });
+//         if (!teacher) return res.status(404).json({ message: "Teacher not found" });
+
+//         const validated = await bcrypt.compare(req.body.password, teacher.password);
+//         if (!validated) return res.status(400).json({ message: "Invalid password" });
+
+//         // Sequential populate
+//         teacher = await teacher.populate("teachSubject", "subName sessions");
+//         teacher = await teacher.populate("school", "schoolName");
+//         teacher = await teacher.populate("teachSclass", "sclassName");
+
+//         teacher.password = undefined;
+
+//         if (!process.env.JWT_SECRET) {
+//             throw new Error("JWT_SECRET is not defined in environment variables");
+//         }
+
+//         const token = jwt.sign({ id: teacher._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+//         res.json({ token, teacher });
+//     } catch (err) {
+//         console.error("Login error stack:", err);
+//         res.status(500).json({ message: "Server error", error: err.message });
+//     }
+// };
+
+
+
+
+
 
 const teacherLogIn = async (req, res) => {
     try {
