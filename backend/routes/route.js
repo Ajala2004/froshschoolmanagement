@@ -2,8 +2,14 @@ const router = require('express').Router();
 
 // const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
 
-const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
-const { sendEmail } = require("../controllers/emailController.js")
+const { adminRegister, adminLogIn, getAdminDetail } = require('../controllers/admin-controller.js');
+const {
+    getStudentEmails,
+    getParentEmails,
+    getTeacherEmails,
+    previewEmail,
+    sendEmail
+} = require("../controllers/emailController.js")
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
 const { complainCreate, complainList } = require('../controllers/complain-controller.js');
 const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = require('../controllers/notice-controller.js');
@@ -13,7 +19,7 @@ const {
     getStudents,
     getStudentDetail,
     deleteStudents,
-    
+    getNextRollNumber,
     deleteStudent,
     updateStudent,
     studentAttendance,
@@ -40,7 +46,7 @@ router.get("/Admin/:id", getAdminDetail)
 
 router.post('/StudentReg', studentRegister);
 router.post('/StudentLogin', studentLogIn)
-
+router.get('/next-roll/:adminID', getNextRollNumber);
 router.get("/Students/:id", getStudents)
 router.get("/Student/:id", getStudentDetail)
 
@@ -120,11 +126,15 @@ router.delete("/SubjectsClass/:id", deleteSubjectsByClass)
 
 // mail 
 
+router.get('/students/emails', getStudentEmails);
+router.get('/parents/emails', getParentEmails);
+router.get('/teachers/emails', getTeacherEmails);
+router.post('/preview', previewEmail);
 router.post('/send', sendEmail);
 
 //exam
-router.post("/save",  createOrUpdateExam);
-router.put("/toggle",  toggleAvailability);
+router.post("/save", createOrUpdateExam);
+router.put("/toggle", toggleAvailability);
 router.post('/my-exam', getExamByTeacher);
 
 module.exports = router;

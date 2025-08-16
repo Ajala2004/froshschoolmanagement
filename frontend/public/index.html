@@ -1,26 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <!-- Charset -->
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <!-- <link
-    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=Lora:ital@0;1&family=Varela&family=Varela+Round&display=swap"
-    rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-  <title>School Management System</title>
-</head>
 
+  <!-- Favicon -->
+  <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
+
+  <!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0d6efd" />
+
+  <!-- Basic SEO -->
+  <title>Frosh Academy | Best School in Gombe</title>
+  <meta name="description" content="Frosh Academy is one of the best schools in Gombe, offering quality education, modern facilities, and excellent learning opportunities." />
+  <meta name="keywords" content="Frosh Academy, best school in Gombe, education in Gombe, student portal, school management system, top schools Nigeria" />
+  <meta name="author" content="Frosh Web Visions" />
+
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+  <meta property="og:title" content="Frosh Academy | Best School in Gombe" />
+  <meta property="og:description" content="Frosh Academy is one of the best schools in Gombe, offering quality education, modern facilities, and excellent learning opportunities." />
+  <meta property="og:image" content="%PUBLIC_URL%/frosh-academy.png" />
+  <meta property="og:url" content="https://yourdomain.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Frosh Academy | Best School in Gombe" />
+  <meta name="twitter:description" content="Frosh Academy is one of the best schools in Gombe, offering quality education, modern facilities, and excellent learning opportunities." />
+  <meta name="twitter:image" content="%PUBLIC_URL%/frosh-academy.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Manifest for PWA -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Frosh Academy",
+    "alternateName": "Best School in Gombe",
+    "url": "https://froshschoolmanagement.vercel.app/",
+    "logo": "",
+    "description": "Frosh Academy is one of the best schools in Gombe, offering quality education, modern facilities, and excellent learning opportunities.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Academy Road",
+      "addressLocality": "Gombe",
+      "addressRegion": "Gombe State",
+      "postalCode": "760211",
+      "addressCountry": "NG"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+234-800-123-4567",
+      "contactType": "customer service",
+      "areaServed": "NG",
+      "availableLanguage": ["English", "Hausa"]
+    },
+    "sameAs": [
+      "https://www.facebook.com/yourpage",
+      "https://www.twitter.com/yourpage",
+      "https://www.instagram.com/yourpage"
+    ]
+  }
+  </script>
+</head>
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
 </body>
-
 </html>
