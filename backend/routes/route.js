@@ -1,5 +1,9 @@
 const router = require('express').Router();
 
+const {
+  getExamsForStudent,
+  submitExam,
+} = require("../controllers/examgetController");
 // const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
 
 const { adminRegister, adminLogIn, getAdminDetail } = require('../controllers/admin-controller.js');
@@ -136,5 +140,11 @@ router.post('/send', sendEmail);
 router.post("/save", createOrUpdateExam);
 router.put("/toggle", toggleAvailability);
 router.post('/my-exam', getExamByTeacher);
+
+// /api/exam/student/:studentId/exams
+router.get("/student/:studentId/exams", getExamsForStudent);
+
+// /api/exam/student/:studentId/exam/:examId/submit
+router.post("/student/:studentId/exam/:examId/submit", submitExam);
 
 module.exports = router;

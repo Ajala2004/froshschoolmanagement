@@ -21,8 +21,9 @@ import StudentExam from './StudentExam';
 import Logout from '../Logout'
 import AccountMenu from '../../components/AccountMenu';
 import { AppBar, Drawer } from '../../components/styles';
-
+import { useSelector } from 'react-redux';
 const StudentDashboard = () => {
+    const { currentUser, response, error } = useSelector((state) => state.user);
     const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -80,7 +81,7 @@ const StudentDashboard = () => {
                         <Route path="/Student/subjects" element={<StudentSubjects />} />
                         <Route path="/Student/attendance" element={<ViewStdAttendance />} />
                         <Route path="/Student/complain" element={<StudentComplain />} />
-                            <Route path="/Student/exams" element={<StudentExam/>} />
+                            <Route path="/Student/exams" element={<StudentExam studentId={currentUser._id} />} />
                         <Route path="/logout" element={<Logout />} />
                     </Routes>
                 </Box>

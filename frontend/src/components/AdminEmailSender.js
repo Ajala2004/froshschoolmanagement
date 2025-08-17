@@ -299,7 +299,7 @@ export default function AdminEmailSender() {
   const [message, setMessage] = useState("");
   const [customEmails, setCustomEmails] = useState("");
   const [feedback, setFeedback] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);         
 
   const sendEmail = async () => {
     setLoading(true);
